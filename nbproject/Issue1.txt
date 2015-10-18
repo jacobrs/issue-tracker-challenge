@@ -1,0 +1,6 @@
+Title: Implement FizzBuzz
+Type: Task
+Description: Write a program that prints the numbers from 1 to 100. On each multiple of three, print “Fizz” instead of the number. On each multiple of five, print “Buzz” instead of the number. For numbers which are multiples of both three and five, print FizzBuzz instead of the number.
+Priority: Critical
+Time Estimate: 5
+Status: Closed
