@@ -10,14 +10,16 @@ import java.util.Scanner;
 
 public class Main{
 
-    public static String PATH = "/Users/jacob/Downloads/Tryout 2/Data/";
+    public static String PATH = "/Users/jacob/Downloads/Tryout 2/Data";
     public static LinkedList<Project> projects = new LinkedList<Project>();
     public static void main(String args[]) throws FileNotFoundException{
         
         File projectsFolder = new File(PATH);
+        //noinspection ConstantConditions
         for(File project : projectsFolder.listFiles()){
             Project p = new Project(project.getName());
             if(project.isDirectory()) {
+                //noinspection ConstantConditions
                 for (File issue : project.listFiles()) {
                     Issue i = readIssue(issue);
                     p.createTicket(i);

@@ -257,6 +257,7 @@ public class ProjectsGUI extends javax.swing.JFrame {
         int selected = this.listProjects.getSelectedIndex();
          
         // Delete the project from the LinkedList of Projects
+        Projects.get(selected).destroyProject();
         Projects.remove(selected);
          
         this.listProjects.remove(selected);

@@ -14,12 +14,12 @@ public class ProjectTest {
 
     @Before
     public void build(){
-        p = new Project("Test");
+        p = new Project("TestProject");
     }
 
     @Test
     public void testConstructors(){
-        Assert.assertSame("Test", p.name);
+        Assert.assertSame("TestProject", p.name);
     }
 
     @Test

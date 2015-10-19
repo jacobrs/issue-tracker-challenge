@@ -1,6 +1,9 @@
 package IssueTracker.Classes;
 
-import java.io.Serializable;
+import IssueTracker.Main;
+
+import java.io.*;
+import java.nio.file.*;
 import java.util.LinkedList;
 
 /**
@@ -13,6 +16,7 @@ public class Project implements Serializable{
 
     public Project(String title){
         name = title;
+        this.writeProjectToDisk();
     }
 
     private LinkedList<Issue> getOustandingIssues(){
@@ -80,8 +84,8 @@ public class Project implements Serializable{
         if(k > issues.size() - 1){
             return false;
         }
-        /*
-        String issueFile = Main.PATH + "/" + this.name + "/Issue#" + issues.get(k).number;
+
+        String issueFile = Main.PATH + "/" + this.name + "/Issue" + issues.get(k).number + ".txt";
         try {
             Path issuePath = FileSystems.getDefault().getPath(issueFile);
             try {
@@ -92,11 +96,11 @@ public class Project implements Serializable{
                 System.err.format("%s not empty%n", issuePath);
             } catch (IOException x) {
                 // File permission problems are caught here.
-                System.err.println(x);
+                System.err.println(x.toString());
             }
         } catch (Exception a) {
             a.printStackTrace();
-        }*/
+        }
 
         issues.remove(k);
         return true;
@@ -105,15 +109,41 @@ public class Project implements Serializable{
     public boolean createTicket(Issue i){
         int size = issues.size();
         issues.add(i);
+
+        Path issuePath = FileSystems.getDefault().getPath(Main.PATH + "/" + this.name + "/Issue" + i.number + ".txt");
+        try {
+            Files.createFile(issuePath);
+        } catch (FileAlreadyExistsException e) {
+            System.out.print(e.toString());
+        } catch (IOException x) {
+            // File permission problems are caught here.
+            System.err.println(x.toString());
+        }
+
+        try {
+            PrintWriter writer = new PrintWriter(issuePath.toString(), "UTF-8");
+            writer.println("Title: " + i.title);
+            writer.println("Type: " + i.type);
+            writer.println("Description: " + i.description);
+            writer.println("Priority: " + i.priority);
+            writer.println("Time Estimate: " + i.timeEstimate);
+            writer.println("Status: " + i.status);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         return size < issues.size();
     }
 
     public boolean destroyIssues(){
 
-        /*
+
         for(Issue i : issues) {
 
-            String issueFile = Main.PATH + "/" + this.name + "/Issue#" + i.number;
+            String issueFile = Main.PATH + "/" + this.name + "/Issue" + i.number  + ".txt";
             try {
                 Path issuePath = FileSystems.getDefault().getPath(issueFile);
                 try {
@@ -124,13 +154,12 @@ public class Project implements Serializable{
                     System.err.format("%s not empty%n", issuePath);
                 } catch (IOException x) {
                     // File permission problems are caught here.
-                    System.err.println(x);
+                    System.err.println(x.toString());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        */
 
         issues.clear();
         return issues.isEmpty();
@@ -138,24 +167,30 @@ public class Project implements Serializable{
 
     public void destroyProject(){
         destroyIssues();
-        /*
+
+        Path issuePath = FileSystems.getDefault().getPath(Main.PATH + "/" + this.name);
         try {
-            URI projPath = new URI(Main.PATH + "/");
-            Path issuePath = FileSystems.getDefault().getPath(projPath + "/" + this.name);
-            try {
-                Files.delete(issuePath);
-            } catch (NoSuchFileException x) {
-                System.err.format("%s: no such" + " file or directory%n", issuePath);
-            } catch (DirectoryNotEmptyException x) {
-                System.err.format("%s not empty%n", issuePath);
-            } catch (IOException x) {
-                // File permission problems are caught here.
-                System.err.println(x);
-            }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+            Files.delete(issuePath);
+        } catch (NoSuchFileException x) {
+            System.err.format("%s: no such" + " file or directory%n", issuePath);
+        } catch (DirectoryNotEmptyException x) {
+            System.err.format("%s not empty%n", issuePath);
+        } catch (IOException x) {
+            // File permission problems are caught here.
+            System.err.println(x.toString());
         }
-        */
+    }
+
+    public void writeProjectToDisk(){
+        Path issuePath = FileSystems.getDefault().getPath(Main.PATH + "/" + this.name);
+        try {
+            Files.createDirectory(issuePath);
+        } catch (FileAlreadyExistsException e) {
+            System.out.print(e.toString());
+        } catch (IOException x) {
+            // File permission problems are caught here.
+            System.err.println(x.toString());
+        }
     }
 }
 
