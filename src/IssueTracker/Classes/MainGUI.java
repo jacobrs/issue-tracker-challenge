@@ -220,7 +220,7 @@ public class MainGUI extends JFrame {
             this.Projects.get(selected).destroyProject();
             this.Projects.remove(selected);
 
-            this.listProjects.remove(selected);
+            this.reloadProjectList();
             this.listIssues.removeAll();
             this.txtOutput.setText("");
         }else{
@@ -247,15 +247,7 @@ public class MainGUI extends JFrame {
         if(addTo != null) {
             addTo.createTicket(i);
             this.listIssues();
-
-            this.projectsModel.clear();
-
-            for (Project project : this.Projects) {
-                String text = project.name + " | " + project.getOutstanding() + " | " + project.getEstimate();
-                this.projectsModel.addElement(text);
-            }
-
-            this.listProjects.setModel(this.projectsModel);
+            this.reloadProjectList();
         }
     }
 
@@ -268,15 +260,9 @@ public class MainGUI extends JFrame {
                 this.currListedProject.delete(this.listOfIssues.get(issueIndex).number);
 
                 this.listsModel.remove(issueIndex);
-                this.projectsModel.clear();
-
-                for (Project project : this.Projects) {
-                    String text = project.name + " | " + project.getOutstanding() + " | " + project.getEstimate();
-                    this.projectsModel.addElement(text);
-                }
-
                 this.listIssues.setModel(this.listsModel);
-                this.listProjects.setModel(this.projectsModel);
+
+                this.reloadProjectList();
             }
         }else{
             JOptionPane.showMessageDialog(null, "Select an issue first");
@@ -325,6 +311,17 @@ public class MainGUI extends JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Selected an issue first");
         }
+    }
+
+    private void reloadProjectList(){
+        this.projectsModel.clear();
+
+        for (Project project : this.Projects) {
+            String text = project.name + " | " + project.getOutstanding() + " | " + project.getEstimate();
+            this.projectsModel.addElement(text);
+        }
+
+        this.listProjects.setModel(this.projectsModel);
     }
 
     @Override
