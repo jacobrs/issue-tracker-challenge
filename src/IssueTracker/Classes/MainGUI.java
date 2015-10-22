@@ -64,7 +64,7 @@ public class MainGUI extends JFrame {
     private DefaultListModel<String> listsModel;
 
     public MainGUI(LinkedList<Project> p){
-        MainGUI temp = this;
+        final MainGUI temp = this;
 
         // Set the different filters
         DefaultComboBoxModel<String> dCModel = new DefaultComboBoxModel<>();

@@ -9,9 +9,15 @@ import java.util.Scanner;
 
 public class Main{
 
+    public static boolean isJacob = true;
+
     public static String PATH = "/Users/benjaminbarault/Desktop/Java Projects/Test Folders/Data";
     public static LinkedList<Project> projects = new LinkedList<>();
     public static void main(String args[]) throws FileNotFoundException{
+
+        if(isJacob){
+            Main.PATH = "/Users/jacob/Documents/Downloaded Tools/Tryout 2/Data";
+        }
         
         File projectsFolder = new File(PATH);
         //no inspection Constant Conditions
