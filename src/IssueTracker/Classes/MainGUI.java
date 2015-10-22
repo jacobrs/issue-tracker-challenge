@@ -165,7 +165,11 @@ public class MainGUI extends JFrame {
     }
 
     public int getNumberOfIssues(){
-        return currListedProject.getAllIssues().size();
+        if(currListedProject != null){
+            return currListedProject.getAllIssues().size();
+        }else{
+            return this.getSelectedProject().getAllIssues().size();
+        }
     }
 
     private void listIssues(){
@@ -241,11 +245,8 @@ public class MainGUI extends JFrame {
         }
 
         if(addTo != null) {
-            currListedProject.createTicket(i);
-
+            addTo.createTicket(i);
             this.listIssues();
-
-            this.listProjects.setModel(this.projectsModel);
 
             this.projectsModel.clear();
 

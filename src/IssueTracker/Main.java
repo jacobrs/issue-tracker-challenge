@@ -1,7 +1,10 @@
 package IssueTracker;
 
+import IssueTracker.Classes.Issue;
+import IssueTracker.Classes.MainGUI;
+import IssueTracker.Classes.Project;
+
 import javax.swing.*;
-import IssueTracker.Classes.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
@@ -9,7 +12,7 @@ import java.util.Scanner;
 
 public class Main{
 
-    public static boolean isJacob = true;
+    public static boolean isJacob = false;
 
     public static String PATH = "/Users/benjaminbarault/Desktop/Java Projects/Test Folders/Data";
     public static LinkedList<Project> projects = new LinkedList<>();
