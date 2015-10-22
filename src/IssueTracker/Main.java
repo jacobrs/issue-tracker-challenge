@@ -1,8 +1,7 @@
 package IssueTracker;
 
-import IssueTracker.Classes.Issue;
-import IssueTracker.Classes.Project;
-import IssueTracker.Classes.ProjectsGUI;
+import javax.swing.*;
+import IssueTracker.Classes.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
@@ -10,14 +9,16 @@ import java.util.Scanner;
 
 public class Main{
 
-    public static String PATH = "/Users/jacob/Downloads/Tryout 2/Data/";
-    public static LinkedList<Project> projects = new LinkedList<Project>();
+    public static String PATH = "/Users/benjaminbarault/Desktop/Java Projects/Test Folders/Data";
+    public static LinkedList<Project> projects = new LinkedList<>();
     public static void main(String args[]) throws FileNotFoundException{
         
         File projectsFolder = new File(PATH);
-        for(File project : projectsFolder.listFiles()){
+        //no inspection Constant Conditions
+        for(File project : projectsFolder.listFiles()) {
             Project p = new Project(project.getName());
-            if(project.isDirectory()) {
+            if (project.isDirectory()) {
+                //no inspection Constant Conditions
                 for (File issue : project.listFiles()) {
                     Issue i = readIssue(issue);
                     p.createTicket(i);
@@ -25,8 +26,13 @@ public class Main{
                 projects.add(p);
             }
         }
-        
-        new ProjectsGUI(projects).setVisible(true);     
+
+        JFrame frame = new JFrame("MainGUI");
+        frame.setContentPane(new MainGUI(projects).getContentPane());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 
     public static Issue readIssue(File issue) throws FileNotFoundException{
