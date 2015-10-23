@@ -12,36 +12,44 @@ import java.util.Scanner;
 
 public class Main{
 
-    public static boolean isJacob = false;
+    public static boolean isJacob = true;
 
     public static String PATH = "/Users/benjaminbarault/Desktop/Java Projects/Test Folders/Data";
     public static LinkedList<Project> projects = new LinkedList<>();
     public static void main(String args[]) throws FileNotFoundException{
 
         if(isJacob){
-            Main.PATH = "/Users/jacob/Documents/Downloaded Tools/Tryout 2/Data";
+            Main.PATH = "/Users/jacob/Documents/Downloaded Tools/Tryout 3/Data";
         }
         
         File projectsFolder = new File(PATH);
-        //no inspection Constant Conditions
-        for(File project : projectsFolder.listFiles()) {
-            Project p = new Project(project.getName());
-            if (project.isDirectory()) {
-                //no inspection Constant Conditions
-                for (File issue : project.listFiles()) {
-                    Issue i = readIssue(issue);
-                    p.createTicket(i);
+        boolean launch = true;
+
+        if(projectsFolder.exists() && projectsFolder.listFiles() != null) {
+            //no inspection Constant Conditions
+            for (File project : projectsFolder.listFiles()) {
+                Project p = new Project(project.getName());
+                if (project.isDirectory()) {
+                    //no inspection Constant Conditions
+                    for (File issue : project.listFiles()) {
+                        Issue i = readIssue(issue);
+                        p.createTicket(i);
+                    }
+                    projects.add(p);
                 }
-                projects.add(p);
             }
+        }else{
+            launch = projectsFolder.mkdirs();
         }
 
-        JFrame frame = new JFrame("MainGUI");
-        frame.setContentPane(new MainGUI(projects).getContentPane());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setResizable(false);
-        frame.setVisible(true);
+        if(launch) {
+            JFrame frame = new JFrame("MainGUI");
+            frame.setContentPane(new MainGUI(projects).getContentPane());
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setResizable(false);
+            frame.setVisible(true);
+        }
     }
 
     public static Issue readIssue(File issue) throws FileNotFoundException{

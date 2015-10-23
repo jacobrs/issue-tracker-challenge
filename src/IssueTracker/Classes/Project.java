@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class Project implements Serializable{
 
     public String name;
-    public LinkedList<Issue> issues = new LinkedList<Issue>();
+    public LinkedList<Issue> issues = new LinkedList<>();
 
     public Project(String title){
         name = title;
@@ -20,7 +20,7 @@ public class Project implements Serializable{
     }
 
     private LinkedList<Issue> getOustandingIssues(){
-        LinkedList<Issue> r = new LinkedList<Issue>();
+        LinkedList<Issue> r = new LinkedList<>();
         for(Issue i : issues){
             if(!i.status.toLowerCase().equals("closed"))
                 r.add(i);
@@ -49,7 +49,7 @@ public class Project implements Serializable{
     }
 
     public LinkedList<Issue> getIssues(String status){
-        LinkedList<Issue> r = new LinkedList<Issue>();
+        LinkedList<Issue> r = new LinkedList<>();
         for(Issue i : issues){
             if(i.status.toLowerCase().equals(status.toLowerCase()) || status.toLowerCase().equals("all"))
                 r.add(i);
@@ -58,7 +58,7 @@ public class Project implements Serializable{
     }
 
     public LinkedList<Issue> search(String term){
-        LinkedList<Issue> r = new LinkedList<Issue>();
+        LinkedList<Issue> r = new LinkedList<>();
         for(Issue i : issues){
             if(i.title.toLowerCase().contains(term.toLowerCase()))
                 r.add(i);
