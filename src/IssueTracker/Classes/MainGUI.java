@@ -56,7 +56,7 @@ public class MainGUI extends JFrame {
     private JPanel Filler11;
     private JPanel Filler12;
 
-    private Project currListedProject;
+    private int currListedProject;
     private LinkedList<Project> Projects = new LinkedList<>();
     private LinkedList<Issue> listOfIssues = new LinkedList<>();
 
@@ -65,6 +65,7 @@ public class MainGUI extends JFrame {
 
     public MainGUI(LinkedList<Project> p){
         final MainGUI temp = this;
+        this.currListedProject = -1;
 
         // Set the different filters
         DefaultComboBoxModel<String> dCModel = new DefaultComboBoxModel<>();
@@ -165,8 +166,8 @@ public class MainGUI extends JFrame {
     }
 
     public int getNumberOfIssues(){
-        if(currListedProject != null){
-            return currListedProject.getAllIssues().size();
+        if(this.currListedProject != -1){
+            return this.Projects.get(this.currListedProject).getAllIssues().size();
         }else{
             return this.getSelectedProject().getAllIssues().size();
         }
@@ -179,7 +180,7 @@ public class MainGUI extends JFrame {
         Project selectedProject = this.getSelectedProject();
 
         if(selectedProject != null) {
-            currListedProject = selectedProject;
+            this.currListedProject = this.listProjects.getSelectedIndex();
             LinkedList<Issue> issues = selectedProject.getIssues(filter);
 
             this.listIssues.removeAll();
@@ -240,7 +241,7 @@ public class MainGUI extends JFrame {
     }
 
     private void promptAddIssue(){
-        if(this.getSelectedProject() != null){
+        if(this.currListedProject != -1 || this.getSelectedProject() != null){
             PromptIssue newPrompt = new PromptIssue(MainGUI.this);
             newPrompt.setVisible(true);
         }
@@ -249,14 +250,16 @@ public class MainGUI extends JFrame {
     public void addIssue(Issue i){
         Project addTo;
 
-        if(currListedProject != null) {
-            addTo = currListedProject;
+        if(this.currListedProject != -1) {
+            addTo = this.Projects.get(this.currListedProject);
+            this.listProjects.setSelectedIndex(this.currListedProject);
         }else{
             addTo = this.getSelectedProject();
         }
 
         if(addTo != null) {
             addTo.createTicket(i);
+
             this.listIssues();
             this.reloadProjectList();
         }
@@ -266,10 +269,11 @@ public class MainGUI extends JFrame {
         int issueIndex = this.listIssues.getSelectedIndex();
 
         if(issueIndex != -1) {
-            if(this.currListedProject != null) {
+            if(this.currListedProject != -1) {
                 // Remove the specific issue from the LinkedList in the specific Project
-                this.currListedProject.delete(this.listOfIssues.get(issueIndex).number);
+                this.Projects.get(this.currListedProject).delete(this.listOfIssues.get(issueIndex).number);
 
+                this.listOfIssues.remove(issueIndex);
                 this.listsModel.remove(issueIndex);
                 this.listIssues.setModel(this.listsModel);
 
@@ -283,9 +287,9 @@ public class MainGUI extends JFrame {
     private void searchIssue(){
         String searchTerm = this.txtIssueBottom.getText();
 
-        if(currListedProject != null) {
+        if(this.currListedProject != -1) {
             // Search for the specific issue here and display it in the issues list
-            LinkedList<Issue> foundIssues = currListedProject.search(searchTerm);
+            LinkedList<Issue> foundIssues = this.Projects.get(this.currListedProject).search(searchTerm);
 
             this.listIssues.removeAll();
             this.listsModel.clear();
@@ -299,7 +303,7 @@ public class MainGUI extends JFrame {
                 this.listsModel.addElement(text);
             }
 
-            this.listIssues.updateUI();
+            this.listIssues.setModel(this.listsModel);
             this.listOfIssues = foundIssues;
         }else{
             JOptionPane.showMessageDialog(null, "You must list issues first");
