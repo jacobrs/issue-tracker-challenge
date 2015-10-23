@@ -202,13 +202,24 @@ public class MainGUI extends JFrame {
     private void addProject(){
         String projectName = this.txtProjectBottom.getText();
 
-        // Add the project to our linked list and the list
-        Project tmp = new Project(projectName);
-        Projects.add(tmp);
+        if(!projectName.equals("")) {
+            for(Project p : Projects){
+                if(p.name.toLowerCase().equals(projectName.toLowerCase())){
+                    JOptionPane.showMessageDialog(null, "Cannot have duplicate project names");
+                    return;
+                }
+            }
 
-        String text = projectName + " | " + tmp.getOutstanding() + " | " + tmp.getEstimate();
-        this.projectsModel.addElement(text);
-        this.listProjects.setModel(this.projectsModel);
+            // Add the project to our linked list and the list
+            Project tmp = new Project(projectName);
+            Projects.add(tmp);
+
+            String text = projectName + " | " + tmp.getOutstanding() + " | " + tmp.getEstimate();
+            this.projectsModel.addElement(text);
+            this.listProjects.setModel(this.projectsModel);
+        }else{
+            JOptionPane.showMessageDialog(null, "Project name cannot be nothing");
+        }
     }
 
     private void deleteProject(){
