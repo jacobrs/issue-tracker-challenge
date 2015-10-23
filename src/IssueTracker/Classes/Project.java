@@ -40,10 +40,6 @@ public class Project implements Serializable{
         return counter;
     }
 
-    public LinkedList<Issue> getIssues(){
-        return getOustandingIssues();
-    }
-
     public LinkedList<Issue> getAllIssues(){
         return issues;
     }
@@ -129,9 +125,7 @@ public class Project implements Serializable{
             writer.println("Time Estimate: " + i.timeEstimate);
             writer.println("Status: " + i.status);
             writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 

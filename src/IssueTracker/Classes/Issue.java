@@ -1,9 +1,6 @@
 package IssueTracker.Classes;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.Scanner;
 
 /**
  * Issues are used to keep for tickets which include

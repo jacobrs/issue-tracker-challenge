@@ -28,7 +28,7 @@ public class ProjectTest {
 
     @Test
     public void testIssueManipulation(){
-        LinkedList<Issue> issues = new LinkedList<Issue>();
+        LinkedList<Issue> issues = new LinkedList<>();
 
         Issue i = new Issue("TestingIssue");
         i.description = "First testing issue";
@@ -52,15 +52,16 @@ public class ProjectTest {
         p.createTicket(a);
         issues.add(a);
 
-        LinkedList<Issue> compSearch = new LinkedList<Issue>();
+        LinkedList<Issue> compSearch = new LinkedList<>();
         compSearch.add(a);
-        LinkedList<Issue> empty = new LinkedList<Issue>();
+        LinkedList<Issue> empty = new LinkedList<>();
 
         Assert.assertEquals(1, p.getOutstanding());
         Assert.assertEquals("15.0", Double.toString(p.getEstimate()));
         Assert.assertEquals(2, p.getAllIssues().size());
         Assert.assertEquals(issues, p.getAllIssues());
         Assert.assertEquals(compSearch, p.search("2"));
+        Assert.assertEquals(compSearch, p.getIssues("Closed"));
         Assert.assertEquals(a, p.getIssue(2));
         Assert.assertEquals(true, p.delete(1));
         Assert.assertEquals(compSearch, p.getAllIssues());
