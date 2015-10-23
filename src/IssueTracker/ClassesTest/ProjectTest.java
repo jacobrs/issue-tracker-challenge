@@ -2,6 +2,7 @@ package IssueTracker.ClassesTest;
 
 import IssueTracker.Classes.Issue;
 import IssueTracker.Classes.Project;
+import IssueTracker.Main;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,9 @@ public class ProjectTest {
 
     @Before
     public void build(){
+        if(Main.isJacob){
+            Main.PATH = "/Users/jacob/Documents/Downloaded Tools/Tryout 3/Data";
+        }
         p = new Project("TestProject");
     }
 
