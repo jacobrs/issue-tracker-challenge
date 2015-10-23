@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class Main{
 
-    public static boolean isJacob = true;
+    public static boolean isJacob = false;
 
     public static String PATH = "/Users/benjaminbarault/Desktop/Java Projects/Test Folders/Data";
     public static LinkedList<Project> projects = new LinkedList<>();
